@@ -1,7 +1,7 @@
 # Style-Transfer-Open-CV
 
 ## Video
-![](style-transfer/example/style_transfer.gif)
+![](style-transfer/example/style_transfer_a.gif)
 
 ## High Res Still
 ![](style-transfer/example/high_res_style_transfer_a.jpg)
