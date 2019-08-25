@@ -5,13 +5,21 @@
 #include "opencv2/dnn/shape_utils.hpp"
 #include <iostream>
 #include <stdio.h>
-
+#include <cstdio>
 
 using namespace std;
 using namespace cv;
 using namespace dnn;
 
 
+string get_output_filename(int frame_number)
+{
+	string outfile = "style_test.";
+	string frame_string = to_string(frame_number);
+	frame_string = string(4 - frame_string.length(), '0') + frame_string;
+	outfile = outfile + frame_string + ".jpg";
+	return outfile;
+}
 
 int main(void) {
 
@@ -20,16 +28,25 @@ int main(void) {
 	VideoCapture _capture;
 
 	// Load the network
-	deep = readNet("pic_dec.onnx");
+	deep = readNet("franc.bin", "franc.xml");
+	// Try to make OpenVino work
+	deep.setPreferableBackend(DNN_BACKEND_INFERENCE_ENGINE);
+	deep.setPreferableTarget(DNN_TARGET_OPENCL);
 
 	// Open the stream.
-	_capture.open(1);
+	_capture.open(0);
 	if (!_capture.isOpened())
 		return -2;
 
 	// Get input res
 	int outCameraWidth = _capture.get(CAP_PROP_FRAME_WIDTH);
 	int outCameraHeight = _capture.get(CAP_PROP_FRAME_HEIGHT);
+
+	// Frame count
+	int frame_number = 0;
+	// Storage for input key
+	int key = 1;
+	bool is_capturing = false;
 
 	while (true) {
 		Mat frame;
@@ -39,7 +56,7 @@ int main(void) {
 
 
 		// Hold space to see original image
-		if (waitKey(1000) != 32){
+		if (key!= 32){
 			// Make blob and feed to Neural Net
 			Mat blob, out;
 			blob = blobFromImage(frame, 1. / 256, Size(512, 512), (127, 127, 127), true, false);
@@ -64,13 +81,18 @@ int main(void) {
 			resize(final, frame, frame.size());
 		}
 
-		// Press "c" to capture image
-		if (waitKey(1000) == 99) {
-			imwrite("style_test.jpg", frame);
+		//Press "c" to toggle capturing images
+		if (key == 99) {
+			is_capturing = !is_capturing;
+		}
+		if (is_capturing)
+		{
+			imwrite(get_output_filename(frame_number), frame);
+			frame_number += 1;
 		}
 
 		imshow(_windowName, frame);
-		waitKey(1);
+		key = waitKey(1);
 
 	}
 	return 0;
