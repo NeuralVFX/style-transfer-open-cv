@@ -8,7 +8,7 @@
 
 This is a simple example of how to run a Neural Net on a live video stream with Open CV using OpenVinoToolkit.
 
-Using styles from my [Realtime Style Transfer Project](https://github.com/NeuralVFX/real-time-style-transfer), I've converted the pytorch model to `ONNX`, and then converted that to OpenVino optimzized `BIN`+`XML`
+Using styles from my [Realtime Style Transfer Project](https://github.com/NeuralVFX/real-time-style-transfer), I've converted the pytorch model to `ONNX`, and then converted that to OpenVino optimized `BIN`+`XML`
 
 Testing this on my Microsoft Surface, at 256x256, I get about 30fps.
 
