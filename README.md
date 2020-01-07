@@ -15,5 +15,5 @@ Testing this on my Microsoft Surface, at 256x256, I get about 30fps.
 In order for the EXE to run, run this OpenVino script first: `C:\Program Files (x86)\IntelSWTools\openvino\bin>setupvars.bat`
 
 ## Requirements
-- Install [OpinVinoToolkit] (https://01.org/openvinotoolkit)
+- Install [OpenVinoToolkit](https://01.org/openvinotoolkit)
 - Requires Intel Graphics Card to run in OPENCL mode
